@@ -1,5 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +17,26 @@ public class Main {
         personList.add(person4);
         personList.add(person5);
         personList.add(person6);
+        System.out.println("Size of input List - " + personList.size());
 
+        System.out.println("Sorting List....");
+        List<Person> newPersonlist= personList.stream()
+                .filter(x -> {
+                    if ((x.getFirstName() != null)
+                            && (x.getLastName() != null)
+                            && (x.getAddress() != null)
+                            && (x.getAddress().getCity() != null)
+                            && (x.getAddress().getStreet() != null)
+                            && x.getAddress().getHouse() != 0)
+                    { return  true;}
+                    return false;
+                })
+                .sorted(Comparator.comparing(p -> p.getAddress().getHouse()))
+                .collect(Collectors.toList());
 
+        System.out.println("Size of output List - " + newPersonlist.size());
+        for (Person p :newPersonlist){
+            System.out.println(p.toString());
+        }
     }
 }
